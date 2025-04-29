@@ -1,2 +1,4 @@
-backend/backend
+**/**/.venv
+**/**/__pycache__
+**/**/.idea
 mobile/node_modules

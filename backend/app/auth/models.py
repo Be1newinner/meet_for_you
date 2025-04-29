@@ -7,7 +7,7 @@ from pydantic import EmailStr, Field
 class User(Document):
     username: Annotated[str, Indexed(unique=True)] = Field(..., min_length=3, max_length=30)
     email: Annotated[EmailStr, Indexed(unique=True)] = Field(...) 
-    hashed_password: str = Field(..., min_length=60, max_length=128)
+    hashed_password: str = Field(..., min_length=5, max_length=128)
     is_active: bool = Field(default=True)
         
     full_name: Optional[str] = Field(None, max_length=100)

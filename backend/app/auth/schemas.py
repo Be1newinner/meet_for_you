@@ -1,20 +1,17 @@
 from pydantic import BaseModel, Field, EmailStr
 from datetime import datetime
+from typing import Optional
 
-class RegisterRequest(BaseModel):
+class UserSchema:
     username: str = Field(..., min_length=3, max_length=30, example="vijay_dev")
     email: EmailStr = Field(..., example="vijay@example.com")
-    password: str = Field(..., min_length=8, example="strongPassword123")
+    full_name: Optional[str] = Field(None, max_length=100)
+    bio: Optional[str] = Field(None, max_length=280)
+    avatar_url: Optional[str] = Field(None, example="https://cdn.example.com/avatars/uid.jpg")
 
-    class Config:
-        schema_extra = {
-            "example": {
-                "username": "vijay_dev",
-                "email": "vijay@example.com",
-                "password": "strongPassword123"
-            }
-        }
-        
+class RegisterRequest(BaseModel, UserSchema):
+    password: str = Field(..., min_length=8, example="strongPassword123")
+    
 class LoginRequest(BaseModel):
     email: EmailStr = Field(..., example="vijay@example.com")
     password: str = Field(..., min_length=8, example="strongPassword123")
