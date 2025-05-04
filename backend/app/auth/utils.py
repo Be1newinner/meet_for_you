@@ -1,11 +1,13 @@
 from typing import Union, Optional
 from datetime import timedelta, datetime
-from app.core.config import settings
-from jose import jwt, JWTError
+from shared.core.config import settings
+from jose import jwt
+from passlib.hash import argon2
 
 from fastapi import HTTPException, Depends, status
 from fastapi.security import OAuth2PasswordBearer 
 from app.auth.schemas import TokenResponse
+
 
 oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl="/api/auth/login",
@@ -72,3 +74,13 @@ def build_token_response(user_id: Union[str, int]) -> TokenResponse:
         expires_in=int(settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60),
         token_type="bearer"
     )
+    
+    
+def hashing(plain_password: str) -> str:
+    hashed_password = argon2.hash(plain_password)
+    return hashed_password
+
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    response = argon2.verify(plain_password, hashed_password)
+    return response

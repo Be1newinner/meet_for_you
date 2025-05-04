@@ -4,7 +4,7 @@ from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from app.auth.routers import auth_router
-from app.core.config import settings
+from shared.core.config import settings
 
 # Models
 from app.auth.models import User
